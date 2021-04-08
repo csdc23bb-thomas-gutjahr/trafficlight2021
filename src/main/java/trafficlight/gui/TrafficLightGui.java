@@ -148,7 +148,7 @@ public class TrafficLightGui extends JFrame implements ActionListener {
             green.turnOn(false);
             countYellow = 0; //set blink counter to back to zero
         }
-        //Turn RED on
+        //Turn GREEN on
         else if (trafficLightColor.equals(TrafficLightColor.GREEN)){
             yellow.turnOn(false);
             green.turnOn(true);
