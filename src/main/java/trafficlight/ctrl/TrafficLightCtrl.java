@@ -1,7 +1,10 @@
+//REPO LINK -> https://github.com/csdc23bb-thomas-gutjahr/trafficlight2021
+//Thomas Gutjahr
+
 package trafficlight.ctrl;
 
 import trafficlight.gui.TrafficLightGui;
-import trafficlight.states.State;
+import trafficlight.states.*;
 
 public class TrafficLightCtrl {
 
@@ -26,12 +29,15 @@ public class TrafficLightCtrl {
     }
 
     private void initStates() {
-        //TODO create the states and set current and previous state
+        //TODO create the states and set current and previous state,
+        greenState = new StateFactory().stateFactory("GREEN");
+        yellowState = new StateFactory().stateFactory("YELLOW");
+        redState = new StateFactory().stateFactory("RED");
+        currentState = new StateFactory().stateFactory("OFF");
+        previousState = new StateFactory().stateFactory("RED");
     }
 
-    public State getGreenState() {
-        return greenState;
-    }
+    public State getGreenState() { return greenState; }
 
     public State getRedState() {
         return redState;
@@ -63,5 +69,8 @@ public class TrafficLightCtrl {
 
     public void nextState() {
         //TODO handle GUi request and update GUI
+        getCurrentState().nextState(this); //Get actual State(green,yell....) and set it to the defined next Stat
+        //System.out.println(previousState + "In Controller Klasse");
+        gui.setLight(currentState.getState()); //Actualstate and get Colour back
     }
 }

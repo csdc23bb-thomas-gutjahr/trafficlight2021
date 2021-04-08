@@ -32,6 +32,9 @@ public class TrafficLightGui extends JFrame implements ActionListener {
 
     private int intervall = 1500;
 
+    //Counter for Blinking Yellow
+    private int countYellow = 0;
+
     public TrafficLightGui(TrafficLightCtrl ctrl){
         super(NAME_OF_THE_GAME);
         trafficLightCtrl = ctrl;
@@ -83,8 +86,26 @@ public class TrafficLightGui extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(dialog, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            //Yellow Blinking
+            while (countYellow < 8 && trafficLightCtrl.getCurrentState().equals(trafficLightCtrl.getYellowState())){
+                try {
+                    if (yellow.isOn) {
+                        yellow.turnOn(false);
+
+                    }
+                    else{
+                        yellow.turnOn(true);
+                    }
+
+                    Thread.sleep(400);
+
+                } catch (InterruptedException e) {}
+                //System.out.println(countYellow);
+                countYellow++;
+            }
              while (isAutoMode) {
                  //TODO call the controller
+                 trafficLightCtrl.nextState();
 
                 try {
                     if (yellow.isOn) {
@@ -114,5 +135,25 @@ public class TrafficLightGui extends JFrame implements ActionListener {
 
     public void setLight(TrafficLightColor trafficLightColor){
         //TODO setLight
+        //Turn RED on
+        if(trafficLightColor.equals(TrafficLightColor.RED)){
+            green.turnOn(false);
+            red.turnOn(true);
+            yellow.turnOn(false);
+        }
+        //Turn YELLOW on
+        else if (trafficLightColor.equals(TrafficLightColor.YELLOW)){
+            red.turnOn(false);
+            yellow.turnOn(true);
+            green.turnOn(false);
+            countYellow = 0; //set blink counter to back to zero
+        }
+        //Turn RED on
+        else if (trafficLightColor.equals(TrafficLightColor.GREEN)){
+            yellow.turnOn(false);
+            green.turnOn(true);
+            red.turnOn(false);
+
+        }
     }
 }
